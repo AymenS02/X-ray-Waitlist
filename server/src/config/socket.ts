@@ -7,8 +7,11 @@ export default function setupSocket(server: any) {
 
     io = new Server(server, {
         cors: {
-            origin: ["http://localhost:5173", "https://x-ray-waitlist.vercel.app"],
-            methods: [
+            origin: [
+                "http://localhost:5173",
+                "https://x-ray-waitlist.vercel.app",
+                "https://x-ray-waitlist-dfr6ug0q9-aymen-shoteris-projects.vercel.app"
+            ],            methods: [
                 "GET",
                 "POST",
                 "PATCH",
