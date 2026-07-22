@@ -16,9 +16,13 @@ export default function Queue() {
   const prevRects = useRef<Map<string, DOMRect>>(new Map());
   const knownIds = useRef<Set<string>>(new Set());
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const fetchQueue = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/queue");
+      const res = await axios.get(
+        `${API_URL}/api/queue`
+      );
 
       // Sort without mutating the response array
       const sorted = [...res.data].sort(
@@ -38,7 +42,7 @@ export default function Queue() {
             newIds.forEach((id) => next.delete(id));
             return next;
           });
-        }, 20);
+        }, 300);
       }
 
       sorted.forEach((p) => knownIds.current.add(p._id));
