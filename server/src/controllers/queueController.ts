@@ -3,29 +3,29 @@ import { io } from "../config/socket.js";
 import Queue from "../models/Queue.js";
 
 export const getQueue = async (req: Request, res: Response) => {
-
     try {
 
-        const patients = await Queue.find().sort({ order: 1 });
+        const patients = await Queue.find()
+            .sort({order: 1});
 
-        
-        res.json(patients);
 
-    }
+        const queueWithWaitingTime = patients.map(patient => ({
+            ...patient.toObject(),
+            waitingTime: (patient.order - 1) * 7 + 3
+        }));
 
-    catch {
 
+        res.json(queueWithWaitingTime);
+
+    } catch {
         res.status(500).json({
-
-            message: "Server Error"
-
+            message:"Server Error"
         });
-
     }
-
 };
 
 export const addPatient = async (req: Request, res: Response) => {
+    console.log("Received request to add patient with name:", req.body.name, "and phone:", req.body.phone);
     try {
         if (!req.body.name?.trim()) {
             return res.status(400).json({
@@ -39,6 +39,7 @@ export const addPatient = async (req: Request, res: Response) => {
 
         const patient = await Queue.create({
             name: req.body.name,
+            phone: req.body.phone,
             order: nextOrder,
         });
 
@@ -209,4 +210,26 @@ export const movePatientDown = async (req: Request, res: Response) => {
             message: "Server Error",
         });
     }
+};
+
+export const getStatus = async (req: Request, res: Response) => {
+    console.log("Received request for status with phone:", req.params.phone);
+  try {
+    const { phone } = req.params;
+    console.log("Searching for patient with phone:", phone);
+
+    const patient = await Queue.findOne({ phone });
+
+    if (!patient) {
+      return res.status(404).json({
+        message: "Patient not found",
+      });
+    }
+
+    res.json(patient);
+  } catch (error) {
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
 };

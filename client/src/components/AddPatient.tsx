@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 interface AddPatientProps {
-  onAdd: (name: string) => void;
+  onAdd: (name: string, phone: string) => void;
 }
 
 function formatPastedName(rawName: string): string {
@@ -28,11 +28,12 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
   const [pastedName, setPastedName] = useState("");
   const [lastName, setLastName] = useState("");
   const [firstName, setFirstName] = useState("");
+  const [phone,setPhone] = useState("");
 
   const handlePasteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!pastedName.trim()) return;
-    onAdd(formatPastedName(pastedName));
+    onAdd(formatPastedName(pastedName), phone);
     setPastedName("");
   };
 
@@ -45,7 +46,7 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
       : "";
     const formatted = initial ? `${firstName.trim()} ${initial}` : firstName.trim();
 
-    onAdd(formatted);
+    onAdd(formatted, phone);
     setLastName("");
     setFirstName("");
   };
@@ -86,6 +87,13 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
             placeholder="Robinson, Sharon"
             className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Phone number"
+            className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+          />
           <button
             type="submit"
             className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
@@ -107,6 +115,13 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             placeholder="Last name"
+            className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
+          />
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            placeholder="Phone number"
             className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
           <button

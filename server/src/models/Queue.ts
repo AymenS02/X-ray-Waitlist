@@ -10,6 +10,15 @@ const queueSchema = new mongoose.Schema({
     order: {
         type: Number,
         required: true  
+    },
+    phone: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    waitingTime: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true

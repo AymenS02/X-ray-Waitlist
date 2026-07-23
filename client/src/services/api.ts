@@ -8,9 +8,10 @@ export const getQueue = () => {
   return API.get("/queue");
 };
 
-export const addPatient = (name: string) => {
+export const addPatient = (name: string, phone: string) => {
   return API.post("/queue", {
     name,
+    phone,
   });
 };
 
@@ -25,3 +26,7 @@ export const movePatientUp = (id: string) => {
 export const movePatientDown = (id: string) => {
   return API.patch(`/queue/${id}/down`);
 };
+
+export const getStatus = (phone: string) => {
+  return API.get(`/queue/status/${phone}`);
+}

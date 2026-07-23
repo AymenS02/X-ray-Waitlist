@@ -5,6 +5,8 @@ export interface Patient {
   _id: string;
   name: string;
   order: number;
+  phone: string;
+  waitingTime: number;
 }
 
 import {
@@ -61,9 +63,10 @@ export default function Receptionist() {
     }
   };
 
-  const handleAddPatient = async (name: string) => {
+  const handleAddPatient = async (name: string, phone: string) => {
+    console.log("Adding patient:", name, phone);
     try {
-      await addPatient(name);
+      await addPatient(name, phone);
     } catch (error) {
       console.error("Error adding patient:", error);
     }
@@ -189,9 +192,15 @@ export default function Receptionist() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
 
-                    <span className="flex-1 text-sm font-medium text-slate-800">
-                      {patient.name}
-                    </span>
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-slate-800">
+                        {patient.name}
+                      </p>
+
+                      <p className="text-xs text-slate-400">
+                        approximately {patient.waitingTime} minute wait
+                      </p>
+                    </div>
 
                     <div className="flex items-center gap-1 rounded-md border border-slate-200 p-0.5">
                       <button

@@ -12,7 +12,9 @@ import {
 
     movePatientUp,
 
-    movePatientDown
+    movePatientDown,
+
+    getStatus
     
 } from "../controllers/queueController.js";
 
@@ -29,5 +31,7 @@ router.delete("/", clearQueue);
 router.patch("/:id/up", movePatientUp);
 
 router.patch("/:id/down", movePatientDown);
+
+router.get("/status/:phone", getStatus);
 
 export default router;
