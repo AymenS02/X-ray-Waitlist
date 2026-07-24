@@ -25,21 +25,28 @@ export const getQueue = async (req: Request, res: Response) => {
 };
 
 export const addPatient = async (req: Request, res: Response) => {
-    console.log("Received request to add patient with name:", req.body.name, "and phone:", req.body.phone);
+    
     try {
         if (!req.body.name?.trim()) {
             return res.status(400).json({
                 message: "Patient name is required",
             });
+        } else if (!req.body.phone?.trim()) {
+            return res.status(400).json({
+                message: "Patient phone number is required",
+            });
         }
 
+
+        const cleanPhone = req.body.phone.replace(/\D/g, "");
+        
         const lastPatient = await Queue.findOne().sort({ order: -1 });
 
         const nextOrder = lastPatient ? lastPatient.order + 1 : 1;
 
         const patient = await Queue.create({
             name: req.body.name,
-            phone: req.body.phone,
+            phone: cleanPhone,
             order: nextOrder,
         });
 
@@ -213,9 +220,10 @@ export const movePatientDown = async (req: Request, res: Response) => {
 };
 
 export const getStatus = async (req: Request, res: Response) => {
-    console.log("Received request for status with phone:", req.params.phone);
+
   try {
     const { phone } = req.params;
+
     console.log("Searching for patient with phone:", phone);
 
     const patient = await Queue.findOne({ phone });
@@ -226,7 +234,11 @@ export const getStatus = async (req: Request, res: Response) => {
       });
     }
 
-    res.json(patient);
+    res.json({
+      ...patient.toObject(),
+      waitingTime: (patient.order - 1) * 7 + 3,
+    });
+
   } catch (error) {
     res.status(500).json({
       message: "Server Error",

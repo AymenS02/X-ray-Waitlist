@@ -32,23 +32,35 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
 
   const handlePasteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!pastedName.trim()) return;
-    onAdd(formatPastedName(pastedName), phone);
+
+    const cleanPhone = phone.replace(/\D/g, "");
+
+    onAdd(formatPastedName(pastedName), cleanPhone);
+
     setPastedName("");
   };
 
   const handleManualSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!firstName.trim()) return;
 
     const initial = lastName.trim()
       ? `${lastName.trim().charAt(0).toUpperCase()}.`
       : "";
-    const formatted = initial ? `${firstName.trim()} ${initial}` : firstName.trim();
 
-    onAdd(formatted, phone);
-    setLastName("");
+    const formatted = initial
+      ? `${firstName.trim()} ${initial}`
+      : firstName.trim();
+
+    const cleanPhone = phone.replace(/\D/g, "");
+
+    onAdd(formatted, cleanPhone);
+
     setFirstName("");
+    setLastName("");
   };
 
   return (
