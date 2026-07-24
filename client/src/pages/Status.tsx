@@ -23,7 +23,12 @@ const Status = () => {
   const fetchStatus = async () => {
     try {
       setError("");
-      const res = await getStatus(phone);
+      const cleanPhone = phone.replace(/\D/g, ""); // Remove non-digit characters
+      if (!cleanPhone) {
+        setError("Please enter a valid phone number.");
+        return;
+      }
+      const res = await getStatus(cleanPhone);
       setStatus(res.data);
     } catch {
       setStatus(null);
