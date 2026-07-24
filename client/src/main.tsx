@@ -8,3 +8,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <App />
   </React.StrictMode>
 );
+
+// how many x-ray techs changes wait time
+// taking currently on display?
+// how many patients are in the queue?
+// patient doesnt answer call, what happens? remove from queue?

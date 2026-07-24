@@ -39,7 +39,7 @@ const Status = () => {
   useEffect(() => {
 
     socket.on("queueUpdated", () => {
-      fetchStatus().then(setStatus);
+      fetchStatus();
     });
 
     return () => {
