@@ -38,7 +38,8 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
     const cleanPhone = phone.replace(/\D/g, "");
 
     onAdd(formatPastedName(pastedName), cleanPhone);
-
+    
+    setPhone("");
     setPastedName("");
   };
 
@@ -61,6 +62,7 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
 
     setFirstName("");
     setLastName("");
+    setPhone("");
   };
 
   return (
@@ -96,7 +98,7 @@ export default function AddPatient({ onAdd }: AddPatientProps) {
             type="text"
             value={pastedName}
             onChange={(e) => setPastedName(e.target.value)}
-            placeholder="Robinson, Sharon"
+            placeholder="Frost, Jack"
             className="flex-1 rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-slate-500 focus:outline-none focus:ring-1 focus:ring-slate-500"
           />
           <input
